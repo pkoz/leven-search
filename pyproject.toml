@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools >= 52.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "leven-search"
+version = "0.1.0"
+authors = [
+    { name = "Piotr Kozłowski", email = "piotr.kozlowski@gmail.com" },
+]
+description = "Fast and flexible search in a dictionary using Levenshtein distance"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { 'text' = 'MIT' }
+classifiers = [
+    "Intended Audience :: Developers",
+    "Programming Language :: Python",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Linguistic",
+    "Topic :: Text Processing :: General",
+    "Topic :: Utilities",
+]
+keywords = [
+    "levenshtein",
+    "search",
+    "fuzzy",
+    "dictionary",
+    "trie",
+]
+[project.optional-dependencies]
+tests = [
+    'pytest',
+    'nltk',
+    'coverage'
+]
+
+[project.urls]
+Homepage = "https://github.com/pkoz/leven-search"
+Repository = "https://github.com/pkoz/leven-search"
