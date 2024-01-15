@@ -33,7 +33,8 @@ keywords = [
 tests = [
     'pytest',
     'nltk',
-    'coverage'
+    'coverage',
+    'coverage-badge'
 ]
 
 [project.urls]

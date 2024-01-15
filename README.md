@@ -1,5 +1,7 @@
 # Efficient and Flexible Searching Within Levenshtein Distance
 
+![Coverage](https://github.com/pkoz/leven-search/blob/main/test/coverage.svg)
+
 ### Introduction
 
 Welcome to Leven-Search, a library designed for efficient and fast searching
