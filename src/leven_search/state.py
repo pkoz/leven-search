@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List
 
-from cost import Edit, EditCostConfig
+from .cost import Edit, EditCostConfig
 
 
 @dataclass

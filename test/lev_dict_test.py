@@ -6,9 +6,8 @@ from typing import List
 
 import nltk
 
-from cost import GranularEditCostConfig, EditCost, EditOp
+from leven_search import LevenSearch, GranularEditCostConfig, EditCost, EditOp
 from helpers import randomly_change_word
-from leven_search import LevenSearch
 
 
 @contextmanager

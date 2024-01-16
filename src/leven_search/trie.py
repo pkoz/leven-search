@@ -1,9 +1,9 @@
 from typing import Optional, Dict
 
-from config import Config
-from cost import Edit, EditOp
-from result import Result, ResultItem
-from state import State
+from .config import Config
+from .cost import Edit, EditOp
+from .result import Result, ResultItem
+from .state import State
 
 
 class Trie:

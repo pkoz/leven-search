@@ -62,13 +62,13 @@ pip install leven-search
 First, import the library:
 
 ```python
-import leven_search
+import leven_search as lev
 ```
 
 Then, create a LevenSearch object:
 
 ```python
-searcher = leven_search.LevenSearch()
+searcher = lev.LevenSearch()
 ```
 
 Next, add words to the searcher:
@@ -93,13 +93,13 @@ The following example shows how to use the library to search for words within a 
 
 ```python
 import nltk
-import leven_search
+import leven_search as lev
 
 # Download the Brown corpus
 nltk.download('brown')
 
 # Create a LevenSearch object
-searcher = leven_search.LevenSearch()
+searcher = lev.LevenSearch()
 
 for w in nltk.corpus.brown.words():
     if len(w) > 2:
@@ -112,9 +112,8 @@ searcher.find_dist('komputer', 1)
 # 	computer: ResultItem(word='computer', dist=1, updates=[k -> c])
 
 # Search for words within a Levenshtein distance with custom costs
-from cost import GranularEditCostConfig, EditCost
 
-cost = GranularEditCostConfig(default_cost=5, edit_costs=[EditCost('k', 'c', 2)])
+cost = lev.GranularEditCostConfig(default_cost=5, edit_costs=[lev.EditCost('k', 'c', 2)])
 
 searcher.find_dist('komputer', 5, cost)
 # Result:

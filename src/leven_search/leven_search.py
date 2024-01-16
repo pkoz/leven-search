@@ -1,9 +1,9 @@
 from typing import List, Dict
 
-from config import Config
-from cost import GranularEditCostConfig, EditCostConfig, EditCost
-from state import State
-from trie import Trie
+from .config import Config
+from .cost import GranularEditCostConfig, EditCostConfig, EditCost
+from .state import State
+from .trie import Trie
 
 
 class LevenSearch:

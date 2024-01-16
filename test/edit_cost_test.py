@@ -1,6 +1,6 @@
 import unittest
 
-from cost import Edit, EditCost, EditOp
+from leven_search import Edit, EditCost, EditOp
 
 
 class EditCostTest(unittest.TestCase):

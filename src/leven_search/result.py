@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List, Optional, Dict
 
-from cost import Edit
+from .cost import Edit
 
 
 @dataclass
