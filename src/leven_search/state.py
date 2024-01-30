@@ -7,7 +7,7 @@ from .cost import Edit, EditCostConfig
 @dataclass
 class State:
     word: str
-    distance: int
+    distance: int | float
     pos: int
     updates: List[Edit]
     cost_config: EditCostConfig

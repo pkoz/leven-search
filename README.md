@@ -82,9 +82,10 @@ Finally, search for words within a specified Levenshtein distance:
 
 ```python
 searcher.find_dist("mello", 1)
-
-# Result:
-# 	hello: ResultItem(word='hello', dist=1, updates=[m -> h])
+```
+```
+Result:
+	hello: ResultItem(word='hello', dist=1, updates=[m -> h])
 ```
 
 ### Example
@@ -102,28 +103,43 @@ nltk.download('brown')
 searcher = lev.LevenSearch()
 
 for w in nltk.corpus.brown.words():
-    if len(w) > 2:
-        searcher.insert(w)
+  if len(w) > 2:
+    searcher.insert(w)
+```
 
+```python
 # Search for words within a Levenshtein distance
 searcher.find_dist('komputer', 1)
+```
 
-# Result:
-# 	computer: ResultItem(word='computer', dist=1, updates=[k -> c])
+```
+Result:
+	computer: ResultItem(word='computer', dist=1, updates=[k -> c])
+```
 
 # Search for words within a Levenshtein distance with custom costs
+```python
+cost = lev.GranularEditCostConfig(default_cost=2, edit_costs=[lev.EditCost('k', 'c', 0.1)])
+searcher.find_dist('komputer', 2, cost)
+```
+```
+Result:
+      computer: ResultItem(word='computer', dist=0.1, updates=[k -> c])
+```
+----
+```python
+searcher.find_dist('yomputer', 2, cost)
+```
 
-cost = lev.GranularEditCostConfig(default_cost=5, edit_costs=[lev.EditCost('k', 'c', 2)])
-
-searcher.find_dist('komputer', 5, cost)
-# Result:
-#       computer: ResultItem(word='computer', dist=2, updates=[k -> c])
-
-searcher.find_dist('yomputer', 5, cost)
-# Result:
-#       computer: ResultItem(word='computer', dist=5, updates=[y -> c])
-
-searcher.find_dist('yomputer', 3, cost)
-# Result:
-#       None
+```
+Result:
+      computer: ResultItem(word='computer', dist=2, updates=[y -> c])
+```
+----
+```python
+searcher.find_dist('yomputer', 1, cost)
+```
+```
+Result:
+      None
 ```

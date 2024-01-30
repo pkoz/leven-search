@@ -20,10 +20,10 @@ class Edit:
 
 @dataclass
 class EditCost(Edit):
-    cost: int
+    cost: int | float
 
     @staticmethod
-    def from_edit(edit: Edit, cost: int):
+    def from_edit(edit: Edit, cost: int | float):
         return EditCost(edit.l1, edit.l2, cost)
 
     def __repr__(self):
@@ -31,12 +31,12 @@ class EditCost(Edit):
 
 
 class EditCostConfig:
-    default_cost: int
+    default_cost: int | float
 
-    def __init__(self, default_cost: int = 1):
+    def __init__(self, default_cost: int | float = 1):
         self.default_cost = default_cost
 
-    def get_cost(self, edit: Edit):
+    def get_cost(self, edit: Edit) ->int | float:
         if edit is None:
             return 0
         return self.default_cost
@@ -44,16 +44,16 @@ class EditCostConfig:
 
 class GranularEditCostConfig(EditCostConfig):
 
-    def __init__(self, default_cost: int = 1, edit_costs: Optional[List[EditCost]] = None):
+    def __init__(self, default_cost: int | float = 1, edit_costs: Optional[List[EditCost]] = None):
         super().__init__(default_cost)
-        self.letter_cost: Dict[str, Dict[str, int]] = {}
+        self.letter_cost: Dict[str, Dict[str, int | float]] = {}
         if edit_costs is not None:
             for c in edit_costs:
                 m = self.letter_cost.get(c.l1, {})
                 m[c.l2] = c.cost
                 self.letter_cost[c.l1] = m
 
-    def get_cost(self, edit: Edit) -> int:
+    def get_cost(self, edit: Edit) -> int | float:
         if edit is not None:
             if edit.l1 in self.letter_cost:
                 if edit.l2 in self.letter_cost[edit.l1]:

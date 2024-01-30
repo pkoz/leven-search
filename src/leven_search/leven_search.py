@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Optional
 
 from .config import Config
 from .cost import GranularEditCostConfig, EditCostConfig, EditCost
@@ -42,8 +42,9 @@ class LevenSearch:
 
     def find_dist(self,
                   word: str,
-                  max_distance: int = 0,
-                  edit_cost_config: EditCostConfig | List[EditCost] | int | None = None):
+                  max_distance: int | float = 0,
+                  edit_cost_config: EditCostConfig | List[EditCost] | int | float | None = None,
+                  default_cost: Optional[int | float] = None):
         """
         Find all words in the index with Levenshtein distance to the given word less than or equal
         to the given distance.
@@ -53,13 +54,14 @@ class LevenSearch:
             - If this is int, then the cost of all edits is equal to this value.
             - If this is a list of EditCost objects, then the cost of edits is taken from this list.
             - If this is EditCostConfig object, then the cost of edits is taken from this object.
+        :param default_cost: default cost of an edit. This value has precedence over the edit_cost_config.
         :return: Result object with all words with Levenshtein distance to the given word less than or equal
         """
         word = word.lower()
         config = Config(max_distance)
         if isinstance(edit_cost_config, EditCostConfig):
             edit_cost_config = edit_cost_config
-        elif type(edit_cost_config) is int:
+        elif type(edit_cost_config) is int or type(edit_cost_config) is float:
             edit_cost_config = EditCostConfig(edit_cost_config)
         elif type(edit_cost_config) is list:
             edit_cost_config = GranularEditCostConfig(edit_costs=edit_cost_config)
@@ -67,5 +69,7 @@ class LevenSearch:
             raise ValueError(f"edit_cost must be a list or EditCost object, got {type(edit_cost_config)}")
         else:
             edit_cost_config = EditCostConfig()
+        if default_cost is not None:
+            edit_cost_config.default_cost = default_cost
         state = State(word, max_distance, 0, [], edit_cost_config)
         return self.root_trie.find_dist(word, state, config)

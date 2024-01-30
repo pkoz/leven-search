@@ -5,6 +5,7 @@ from contextlib import contextmanager
 from typing import List
 
 import nltk
+import pytest
 
 from leven_search import LevenSearch, GranularEditCostConfig, EditCost, EditOp
 from helpers import randomly_change_word
@@ -140,9 +141,7 @@ class LevenSearchTestCase(unittest.TestCase):
         self.assertEqual(1, len(edits))
         edit_with_cost = EditCost.from_edit(edits[0], 2)
         granular_cost = GranularEditCostConfig(default_cost=10, edit_costs=[edit_with_cost])
-        res_2 = LevenSearchTestCase.lev_search.find_dist(test_word,
-                                                         max_distance=3,
-                                                         edit_cost_config=granular_cost)
+        res_2 = LevenSearchTestCase.lev_search.find_dist(test_word, max_distance=3, edit_cost_config=granular_cost)
 
         self.assertTrue(res_2.is_in("panoramas"))
         self.assertEqual(2, res_2.get_distance("panoramas"))
@@ -153,6 +152,13 @@ class LevenSearchTestCase(unittest.TestCase):
         res = LevenSearchTestCase.lev_search.find_dist(test_word, max_distance=30, edit_cost_config=edit_cost)
         self.assertTrue(res.is_in("panoramas"))
         self.assertEqual(23, res.get_distance("panoramas"))
+
+    def test_granular_float_edit_cost_object_input(self):
+        test_word = "pxnorxmxsy"
+        edit_cost = GranularEditCostConfig(default_cost=1.8, edit_costs=[EditCost('x', 'a', 0.1)])
+        res = LevenSearchTestCase.lev_search.find_dist(test_word, max_distance=3.1, edit_cost_config=edit_cost)
+        self.assertTrue(res.is_in("panoramas"))
+        self.assertEqual(2.1, pytest.approx(res.get_distance("panoramas")))
 
     def test_granular_edit_cost_for_delete(self):
         test_word = "mathematiciaxn"
@@ -173,6 +179,16 @@ class LevenSearchTestCase(unittest.TestCase):
         test_word = "mathematciaxn"
         edit_cost = [EditCost(EditOp.DELETE, 'x', 1), EditCost(EditOp.ADD, 'i', 1)]
         res = LevenSearchTestCase.lev_search.find_dist(test_word, max_distance=2, edit_cost_config=edit_cost)
+        self.assertTrue(res.is_in("mathematician"))
+        self.assertEqual(2, res.get_distance("mathematician"))
+
+    def test_granular_edit_cost_for_delete_and_add_input_as_list_with_default(self):
+        test_word = "mathematciaxn"
+        edit_cost = [EditCost(EditOp.DELETE, 'x', 1), EditCost(EditOp.ADD, 'i', 1)]
+        res = LevenSearchTestCase.lev_search.find_dist(test_word,
+                                                       max_distance=4,
+                                                       edit_cost_config=edit_cost,
+                                                       default_cost=2)
         self.assertTrue(res.is_in("mathematician"))
         self.assertEqual(2, res.get_distance("mathematician"))
 

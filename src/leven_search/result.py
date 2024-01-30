@@ -7,7 +7,7 @@ from .cost import Edit
 @dataclass
 class ResultItem:
     word: str
-    dist: int
+    dist: int | float
     updates: List[Edit]
 
 
